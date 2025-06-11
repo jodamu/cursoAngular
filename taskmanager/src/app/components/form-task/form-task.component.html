@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <h3>Formulario tareas</h3>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="handleSubmit()">
+        <div class="mb-3">
+            <h5>Nombre</h5>
+            <input class="form-control" type="text" name="name" id="name" formControlName="name" >
+            @if(form.controls.name.hasError('required')){
+                    <p class="alert alert-danger">Nombre es requerido</p>
+            }
+            @if(form.controls.name.hasError('minlength')){
+                <p class="alert alert-danger">Minimo son 5</p>
+        }
+        @if(form.controls.name.hasError('maxlength')){
+            <p class="alert alert-danger">Maximo son 30</p>
+    }
+        </div>
+        <div class="mb-3">            
+            <h5>Prioridad</h5>
+            <input formControlName="priority" class="form-check-input" type="radio" [value]="priorityEnum.LOW" name="priority" id="priority">Baja
+            <input formControlName="priority" class="form-check-input" type="radio" [value]="priorityEnum.MEDIUM" name="priority" id="priority">Media
+            <input formControlName="priority" class="form-check-input" type="radio" [value]="priorityEnum.HIGH" name="priority" id="priority">Alta
+        </div>
+        <div class="mb-3">
+            <h5>Descripción</h5>
+            <textarea formControlName="description" class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
+            @if(form.controls.description.hasError('required')){
+                <p class="alert alert-danger">Descripcion requerida</p>
+            }
+            @if(form.controls.description.hasError('minlength')){
+                <p class="alert alert-danger">Minimo son 5</p>
+        }
+        @if(form.controls.description.hasError('maxlength')){
+            <p class="alert alert-danger">Maximo son 30</p>
+    }
+        </div>
+<button class="btn btn-primary" type="submit" [disabled]="form.invalid"> Guardar </button>
+    </form>
+</div>
