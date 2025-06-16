@@ -1,0 +1,17 @@
+.title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: large;
+    color: aliceblue;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
+
+footer{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 40px;
+    padding: 10px 0;
+    background-color: #030303;
+    color: aliceblue;
+}

@@ -1,0 +1,46 @@
+<mat-card class="fullscreen-card">
+    <mat-card-header>
+        <mat-card-title class="cardtitle">Perros</mat-card-title>
+        <button routerLink="/add"><mat-icon>add</mat-icon></button>
+    </mat-card-header>
+
+    <mat-card-content class="cardbody">
+        <table>
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Raza</th>
+                    <th>descripcion</th>
+                    <th>Acciones</th>
+                </tr>
+
+            </thead>
+<tbody>
+    @for (dog of dogs(); track $index) {
+                <tr>
+                    <td><img [src]="dog.urlImage" alt="Dog Image" width="100"></td>
+                    <td>{{ dog.breed }}</td>
+                    <td>{{ dog.description }}</td>
+                    <td>
+                        <button mat-icon-button color="primary" [routerLink]="['/edit', dog.id]">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteDog(dog.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+
+    } 
+            </tbody>
+
+        </table>
+    </mat-card-content>
+
+</mat-card>
+
+
+
+
+
+

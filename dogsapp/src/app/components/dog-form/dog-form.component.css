@@ -1,0 +1,12 @@
+*{
+  color: white;
+}
+.full-width {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  mat-card {
+    height: 90%;
+    padding: 100px;
+  }

@@ -1,0 +1,25 @@
+<mat-card >
+    <mat-card-header>
+        <mat-card-title>Registro de perrito</mat-card-title>
+        <mat-card-subtitle>Enter dog details below</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <form>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nombre</mat-label>
+                <input matInput  placeholder="Nombre del perrito" formControlName="breed">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Descripcion</mat-label>
+                <input matInput placeholder="Raza del perrito"  formControlName="description">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Imagen</mat-label>
+                <input matInput placeholder="URL de la imagen"  formControlName="urlImage" >
+                
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+
+</mat-card>
