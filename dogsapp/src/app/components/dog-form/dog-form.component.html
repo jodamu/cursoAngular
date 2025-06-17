@@ -1,25 +1,27 @@
-<mat-card >
-    <mat-card-header>
-        <mat-card-title>Registro de perrito</mat-card-title>
-        <mat-card-subtitle>Enter dog details below</mat-card-subtitle>
-    </mat-card-header>
-
+<mat-card>
+    <mat-card-title style="margin-bottom: 50px; color: aliceblue;">Registrar nuevo perro</mat-card-title>
     <mat-card-content>
-        <form>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Nombre</mat-label>
-                <input matInput  placeholder="Nombre del perrito" formControlName="breed">
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Descripcion</mat-label>
-                <input matInput placeholder="Raza del perrito"  formControlName="description">
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Imagen</mat-label>
-                <input matInput placeholder="URL de la imagen"  formControlName="urlImage" >
-                
-            </mat-form-field>
-        </form>
-    </mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Raza</mat-label>
+          <input matInput formControlName="breed" placeholder="Ej. Labrador">
+        </mat-form-field>
 
-</mat-card>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description" placeholder="describe al perro">
+          </textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL de la imagen</mat-label>
+          <input matInput formControlName="urlImage" placeholder="https://....">
+        </mat-form-field>  
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+          registrar</button>
+        
+      </form>
+    </mat-card-content>
+  </mat-card>
