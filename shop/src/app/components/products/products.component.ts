@@ -1,28 +1,39 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Item, ItemService } from '../../services/item.service';
-import { Router } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
+import { Store } from '@ngrx/store'
+import { toSignal } from '@angular/core/rxjs-interop';
+import { catchError, of } from 'rxjs';
+import { selectTotalItems } from '../../store/cart.selector';
+import { addToCart } from '../../store/cart.actions';
+import { RouterLink } from '@angular/router';
+import * as alertifyjs from 'alertifyjs';
 
 @Component({
   selector: 'app-products',
-  imports: [CurrencyPipe],
+  imports: [RouterLink],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
-  private service:ItemService=inject(ItemService);
-  private router=inject(Router);
-  items=signal<Item[]>([]);
+  private service=inject(ItemService);
+  private store=inject(Store);
 
-  ngOnInit() {
-    this.service.getItems().subscribe({
-      next: (data) => {
-        this.items.set(data);
-      },
-      error: (err) => {
-        console.error("Error al obtener los productos", err);
-      }
-    });
-  }
+  items=toSignal(this.service
+    .getItems()
+    .pipe(catchError(err=> {
+      console.log(err);
+      return of([])
+    })),
+    {initialValue: [] as Item[]});
+
+
+  countItems=toSignal(this.store
+    .select(selectTotalItems),
+   {initialValue:0});
+
+   addToCartItem(item:Item){
+    alertifyjs.success('Item '+item.name+' agregado al carrito corectamente');
+      this.store.dispatch(addToCart({item}));
+   }
 
 }
