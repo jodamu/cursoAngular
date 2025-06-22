@@ -1,0 +1,38 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+    <label>ID</label>
+    <input class="form-control" formControlName="id" />
+  </div>
+
+  <div class="mb-3">
+    <label>Nombre</label>
+    <input class="form-control" formControlName="name" />
+  </div>
+
+  <div class="mb-3">
+    <label>Descripción</label>
+    <textarea class="form-control" formControlName="description"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label>Duración</label>
+    <input class="form-control" formControlName="duration" />
+  </div>
+
+  <div class="mb-3">
+    <label>Nivel</label>
+    <select class="form-select" formControlName="level">
+      <option value="">Seleccione un nivel</option>
+      <option>Básico</option>
+      <option>Intermedio</option>
+      <option>Avanzado</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label>Precio</label>
+    <input class="form-control" type="number" formControlName="price" />
+  </div>
+
+  <button class="btn btn-primary" type="submit">Guardar Curso</button>
+</form>
