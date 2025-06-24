@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Course, CourseService } from '../../services/course.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import * as alertifyjs from 'alertifyjs';
 
 @Component({
   selector: 'app-course-form',
@@ -40,7 +41,8 @@ export class CourseFormComponent {
     }
     this.services.insertCourse(course).pipe(take(1)).subscribe({
       next: value => {
-        this.router.navigate(['courses'])
+        this.router.navigate(['dashboard'])
+        alertifyjs.success('Curso Insertado correctamente!')
       },
       error: err=>{console.log(err)}
     });

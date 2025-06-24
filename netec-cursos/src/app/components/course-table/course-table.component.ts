@@ -1,10 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CourseService, Course } from '../../services/course.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
+import { Store } from '@ngrx/store'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { selectTotalItems } from '../../store/cart.selector';
+import { addToCart } from '../../store/cart.actions';
+import * as alertifyjs from 'alertifyjs';
 
 @Component({
   selector: 'app-course-table',
@@ -15,24 +19,28 @@ import { FormsModule } from '@angular/forms';
 export class CourseTableComponent {
   filtro: string = '';
   private service:CourseService=inject(CourseService);
-  private router=inject(Router);
-  private courses=signal<Course[]>([]);
+  
+  private store=inject(Store);
+
+  courses=toSignal(this.service
+    .getAllCourses()
+    .pipe(catchError(err=> {
+      console.log(err);
+      return of([])
+    })),
+    {initialValue: [] as Course[]});
 
 
+   
 
-  ngOnInit(){
-    this.service.getAllCourses().subscribe({
-      next: values => {this.courses.set(values)},
-      error: err => {console.log(err)},
-      complete: () => {console.log('complete')}
-    })
-  }
- 
-cursosFiltrados(): Course[] {
-    return this.courses().filter((c: Course) =>
-  c.name.toLowerCase().includes(this.filtro.toLowerCase())
-    );
-  }
+  countItems=toSignal(this.store
+    .select(selectTotalItems),
+   {initialValue:0});
+
+   addToCartItem(course:Course){
+    alertifyjs.success('Item '+course.name+' agregado al carrito corectamente');
+      this.store.dispatch(addToCart({course}));
+   }
 
 
 

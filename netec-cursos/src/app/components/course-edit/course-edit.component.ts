@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Course, CourseService } from '../../services/course.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
+import * as alertifyjs from 'alertifyjs';
 
 @Component({
   selector: 'app-course-edit',
@@ -34,7 +35,7 @@ export class CourseEditComponent {
 
     if (idParam) {
       this.services.getCourseById(+idParam).subscribe(curso => {
-      this.form.patchValue(curso); // ✅ aquí sí funciona
+        this.form.patchValue(curso); // ✅ aquí sí funciona
       });
     }
 
@@ -58,7 +59,9 @@ export class CourseEditComponent {
     }
     this.services.updateCourse(course).pipe(take(1)).subscribe({
       next: value => {
-        this.router.navigate(['courses'])
+        alertifyjs.success('Curso Actualizado correctamente!')
+        this.router.navigate(['dashboard'])
+
       },
       error: err => { console.log(err) }
     });

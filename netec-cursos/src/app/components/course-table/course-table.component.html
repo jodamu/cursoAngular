@@ -1,12 +1,13 @@
 <div class="container mt-4">
-  <h2 class="mb-4 text-primary">Listado de Cursos</h2>
 
   <!-- boton para agregar curso -->
-   <div class="py-3">
-     <a class="btn btn-success" routerLink="/add">
-    ➕ Agregar Curso
-  </a>
-   </div>
+   
+  <div>
+    
+  <h2 class="mb-4 text-primary">Listado de Cursos <button class="btn btn-primary" routerLink="/cartCourse" >Ver Carrito <span class="badge text-bg-secondary" >{{countItems()}}</span></button>
+     </h2>
+     
+  </div>
 
   <div class="mb-4">
     <input
@@ -19,7 +20,7 @@
   </div>
 
   <div class="row g-4">
-    @for (course of cursosFiltrados(); track $index) {
+    @for (course of courses(); track $index) {
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm">
           <div class="card-body">
@@ -32,8 +33,8 @@
             </p>
           </div>
           <div class="card-footer text-end">
-            <a class="btn btn-outline-primary btn-sm" [routerLink]="['/edit', course.id]">
-              Editar
+            <a class="btn btn-outline-primary btn-sm" (click)="addToCartItem(course)">
+              Agregar al carrito
             </a>
           </div>
         </div>
@@ -41,7 +42,7 @@
     }
   </div>
 
-  @if (cursosFiltrados().length === 0) {
+  @if (courses().length === 0) {
     <div class="alert alert-warning mt-4 text-center">
       No se encontraron cursos con ese nombre.
     </div>

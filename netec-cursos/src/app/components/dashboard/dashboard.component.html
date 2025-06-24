@@ -1,1 +1,49 @@
-<p>dashboard works!</p>
+<div class="container mt-4">
+  <h2 class="mb-4 text-primary">Administración de cursos</h2>
+
+  <!-- boton para agregar curso -->
+   <div class="py-3">
+     <a class="btn btn-success" routerLink="/add">
+    ➕ Agregar Curso
+  </a>
+   </div>
+
+  <div class="mb-4">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Buscar curso por nombre..."
+       [(ngModel)]="filtro"
+      
+    />
+  </div>
+
+  <div class="row g-4">
+    @for (course of cursosFiltrados(); track $index) {
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-success">{{ course.name }}</h5>
+            <p class="card-text">
+              <strong>Descripción:</strong> {{ course.description }}<br>
+              <strong>Duración:</strong> {{ course.duration }}<br>
+              <strong>Nivel:</strong> {{ course.level }}<br>
+              <strong>Precio:</strong> ${{ course.price | number:'1.0-0' }}
+            </p>
+          </div>
+          <div class="card-footer text-end">
+            <a class="btn btn-outline-primary btn-sm" [routerLink]="['/edit', course.id]">
+              Editar
+            </a>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (cursosFiltrados().length === 0) {
+    <div class="alert alert-warning mt-4 text-center">
+      No se encontraron cursos con ese nombre.
+    </div>
+  }
+</div>
