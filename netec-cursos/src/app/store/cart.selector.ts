@@ -13,6 +13,12 @@ export const selectCartItems = createSelector(
     state => state.items
 );
 
+/*decrementar*/
+export const selectDecrement = createSelector(
+    selectCartItems,
+    items => items.reduce((conteo, cartItem)=> conteo + cartItem.quantity,0)
+);
+
 /*total de compra*/
 export const selectCartTotal = createSelector(
     selectCartItems,

@@ -31,7 +31,8 @@ export class CourseTableComponent {
     {initialValue: [] as Course[]});
 
 
-   
+  
+  
 
   countItems=toSignal(this.store
     .select(selectTotalItems),

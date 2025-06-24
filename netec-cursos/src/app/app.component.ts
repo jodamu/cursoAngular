@@ -9,4 +9,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'netec-cursos';
+
+  manejarEvento(mensaje: string) {
+    console.log('Evento recibido del hijo:', mensaje);
+  }
 }

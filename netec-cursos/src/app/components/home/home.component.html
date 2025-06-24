@@ -1,6 +1,8 @@
-<div class="jumbotron jumbotron-fluid bg-light text-dark py-5">
+<div class="jumbotron jumbotron-fluid bg-light text-dark py-5 mb-5">
   <div class="container text-center">
-    <h1 class="display-4 fw-bold mb-4">Bienvenido a <span class="text-primary">Netec</span></h1>
+    <h1 class="display-4 fw-bold mb-4">
+      Bienvenido a <span class="text-primary">Netec</span>
+    </h1>
     <p class="lead mb-3">
       En Netec, transformamos tu futuro profesional a través de una plataforma moderna y flexible. 
       Accede a cursos actualizados en desarrollo de software, administración, tecnología y más.
@@ -8,8 +10,14 @@
     <p class="mb-4">
       Aprende a tu ritmo, desde cualquier lugar, con instructores certificados y contenido de alta calidad.
     </p>
-    <a class="btn btn-primary btn-lg px-4" routerLink="/courses">
-      Explorar Cursos
+    <a class="btn btn-primary btn-lg px-4 mb-5" routerLink="/courses">
+      <i class="bi bi-journal-text me-2"></i>Explorar Cursos
     </a>
+
+    <!-- Carrusel de imágenes -->
+    
+        <div class="slider">
+                <img [src]="images[currentIndex()]">
+        </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { Course } from '../services/course.service';
 para modificar el estado */
 
 export const addToCart = createAction(
+    
     '[cart] Add to Cart',
     props<{ course: Course }>()
 );

@@ -1,27 +1,36 @@
 <div class="container mt-5">
-  <h2 class="mb-4">🛒 Carrito de Compras</h2>
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary fw-bold m-0">
+      <i class="bi bi-cart-fill me-2"></i>Cursos Favoritos
+    </h2>
+    <button class="btn btn-outline-danger" (click)="clearCart()">
+      <i class="bi bi-trash3 me-1"></i> Vaciar favoritos
+    </button>
+  </div>
 
-  <div class="table-responsive">
-    <table class="table align-middle text-center">
-      <thead class="table-light">
+  <!-- Tabla del carrito -->
+  <div class="table-responsive shadow-sm rounded border">
+    <table class="table table-hover align-middle text-center mb-0">
+      <thead class="table-light text-secondary">
         <tr>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-          <th>Subtotal</th>
+          <th class="text-start ps-4">📘 Favoritos</th>
+          <th>💰 Precio</th>
+          <th>🔢 Cantidad</th>
+          <th>🧮 Subtotal</th>
           <th>Acción</th>
         </tr>
       </thead>
       <tbody>
         @for (item of items(); track $index) {
           <tr>
-            <td>{{ item.course.name }}</td>
-            <td>${{ item.course.price }}</td>
+            <td class="text-start ps-4">{{ item.course.name }}</td>
+            <td>${{ item.course.price | number:'1.0-0' }}</td>
             <td>{{ item.quantity }}</td>
-            <td>${{ item.quantity * item.course.price }}</td>
+            <td><strong>${{ item.quantity * item.course.price | number:'1.0-0' }}</strong></td>
             <td>
               <button class="btn btn-outline-danger btn-sm" (click)="deleteItem(item.course.id)">
-                🗑 Eliminar
+                <i class="bi bi-x-circle"></i> Eliminar
               </button>
             </td>
           </tr>
@@ -30,8 +39,17 @@
     </table>
   </div>
 
-  <div class="d-flex justify-content-between align-items-center mt-4 border-top pt-3">
-    <button class="btn btn-outline-secondary" (click)="clearCart()">Vaciar carrito</button>
-    <h4>Total: ${{ total() }}</h4>
+  <!-- Total y acciones -->
+  <div class="d-flex justify-content-end align-items-center mt-4">
+    <h4 class="text-success fw-semibold">
+      Total a pagar: ${{ total() | number:'1.0-0' }}
+    </h4>
   </div>
+
+  <!-- Mensaje si está vacío -->
+  @if (items().length === 0) {
+    <div class="alert alert-warning mt-5 text-center">
+      <i class="bi bi-cart-x me-2"></i> Tus favoritos está vacío.
+    </div>
+  }
 </div>

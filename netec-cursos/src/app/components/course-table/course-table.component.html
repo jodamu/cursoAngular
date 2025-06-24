@@ -1,50 +1,57 @@
-<div class="container mt-4">
-
-  <!-- boton para agregar curso -->
-   
-  <div>
-    
-  <h2 class="mb-4 text-primary">Listado de Cursos <button class="btn btn-primary" routerLink="/cartCourse" >Ver Carrito <span class="badge text-bg-secondary" >{{countItems()}}</span></button>
-     </h2>
-     
+<div class="container mt-5">
+  <!-- Encabezado con botón de carrito -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary fw-bold m-0">
+      <i class="bi bi-journal-code me-2"></i>Listado de Cursos
+    </h2>
+    <button class="btn btn-outline-primary position-relative" routerLink="/cartCourse">
+      <i class="bi bi-cart-fill me-1"></i> Ver Favoritos
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ countItems() }}
+      </span>
+    </button>
   </div>
 
+  <!-- Buscador -->
   <div class="mb-4">
     <input
       type="text"
-      class="form-control"
-      placeholder="Buscar curso por nombre..."
-       [(ngModel)]="filtro"
-      
+      class="form-control form-control-lg"
+      placeholder="🔍 Buscar curso por nombre..."
+      [(ngModel)]="filtro"
     />
   </div>
 
+  <!-- Lista de cursos -->
   <div class="row g-4">
     @for (course of courses(); track $index) {
       <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow border-0 rounded-3">
           <div class="card-body">
-            <h5 class="card-title text-success">{{ course.name }}</h5>
-            <p class="card-text">
-              <strong>Descripción:</strong> {{ course.description }}<br>
-              <strong>Duración:</strong> {{ course.duration }}<br>
-              <strong>Nivel:</strong> {{ course.level }}<br>
-              <strong>Precio:</strong> ${{ course.price | number:'1.0-0' }}
-            </p>
+            <h5 class="card-title text-success fw-semibold mb-3">
+              <i class="bi bi-mortarboard-fill me-1"></i>{{ course.name }}
+            </h5>
+            <ul class="list-unstyled small">
+              <li><strong>📝 Descripción:</strong> {{ course.description }}</li>
+              <li><strong>⏱ Duración:</strong> {{ course.duration }}</li>
+              <li><strong>📘 Nivel:</strong> {{ course.level }}</li>
+              <li><strong>💰 Precio:</strong> ${{ course.price | number:'1.0-0' }}</li>
+            </ul>
           </div>
-          <div class="card-footer text-end">
-            <a class="btn btn-outline-primary btn-sm" (click)="addToCartItem(course)">
-              Agregar al carrito
-            </a>
+          <div class="card-footer bg-white border-0 text-end">
+            <button class="btn btn-outline-success btn-sm px-3" (click)="addToCartItem(course)">
+              <i class="bi bi-cart-plus me-1"></i>Agregar a favoritos
+            </button>
           </div>
         </div>
       </div>
     }
   </div>
 
+  <!-- Sin resultados -->
   @if (courses().length === 0) {
-    <div class="alert alert-warning mt-4 text-center">
-      No se encontraron cursos con ese nombre.
+    <div class="alert alert-warning mt-5 text-center">
+      <i class="bi bi-exclamation-triangle me-2"></i> No se encontraron cursos con ese nombre.
     </div>
   }
 </div>

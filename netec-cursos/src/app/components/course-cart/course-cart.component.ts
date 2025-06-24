@@ -6,10 +6,12 @@ import { CartItem } from '../../store/cart.state';
 import { clearCart, removeFromCart } from '../../store/cart.actions';
 
 import * as alertifyjs from 'alertifyjs';
+import { CommonModule } from '@angular/common';
+import { Course } from '../../services/course.service';
 
 @Component({
   selector: 'app-course-cart',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './course-cart.component.html',
   styleUrl: './course-cart.component.css'
 })
