@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- 🔹 INICIO / HERO DJL ---------------------------------------------------- -->
+<section id="Inicio" class="inicio-hero position-relative text-white d-flex align-items-center">
+  <!-- Overlay para efecto visual -->
+  <div class="overlay"></div>
+
+  <div class="container position-relative">
+    <div class="row align-items-center justify-content-center g-4">
+
+      <!-- Imagen izquierda -->
+      <div class="col-md-4 text-center animate__animated animate__fadeInLeft">
+        <div class="card bg-transparent border-0">
+          <img
+            src="{{ url_for('static', filename='img/izquierda.png') }}"
+            alt="Evento DJL"
+            class="img-fluid rounded-4 shadow-lg"
+          >
+        </div>
+      </div>
+
+      <!-- Contenido central -->
+      <div class="col-md-4 text-center text-md-start animate__animated animate__fadeInUp">
+        <h1 class="display-4 fw-bold mb-3">
+          DJL <span class="text-naranja">Solutions</span>
+        </h1>
+        <p class="lead mb-4">
+          Integramos servicios para eventos a través de alianzas estratégicas,<br>
+          respaldados por nuestra experiencia en la planeación, producción y ejecución de eventos.
+        </p>
+        <a href="#Servicios" class="btn btn-orange btn-lg px-4 rounded-pill shadow-sm">
+          Ver servicios
+        </a>
+      </div>
+
+      <!-- Imagen derecha -->
+      <div class="col-md-4 text-center animate__animated animate__fadeInRight">
+        <div class="card bg-transparent border-0">
+          <img
+            src="{{ url_for('static', filename='img/derecha.png') }}"
+            alt="Evento DJL Público"
+            class="img-fluid rounded-4 shadow-lg"
+          >
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- 🔹 GALERÍA DJL --------------------------------------------------------- -->
+<section id="Galeria" class="galeria-djl py-5">
+  <div class="container">
+
+    <h2 class="text-center mb-4 fw-bold">
+      <span class="text-naranja">Nuestra</span> Galería
+    </h2>
+
+    <!-- Masonry grid -->
+    <div class="row g-3" data-masonry='{"percentPosition": true }'>
+
+      {% for i in range(1, 9) %}   {# 8 imágenes de ejemplo #}
+      <div class="col-6 col-md-4 col-lg-3">
+        <a href="{{ url_for('static', filename='img/gallery/g' ~ i ~ '.jpg') }}"
+           class="glightbox d-block position-relative overflow-hidden rounded-4">
+          <img
+            src="{{ url_for('static', filename='img/gallery/g' ~ i ~ '.jpg') }}"
+            class="w-100 h-100 object-fit-cover galeria-img"
+            alt="Galería DJL {{ i }}"
+          >
+
+          <!-- Hover overlay -->
+          <span class="overlay"></span>
+        </a>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock %}

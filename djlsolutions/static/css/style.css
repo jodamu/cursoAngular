@@ -1,0 +1,120 @@
+/* Paleta corporativa */
+:root {
+  --azul-djl:  #0071BC;
+  --naranja-djl: #EF4423;
+  --gris-djl:  #555555;
+  --white-djl: #fff;
+  --black-djl: #000;
+}
+
+/* Sección INICIO ---------------------------------------------------------- */
+.inicio-hero {
+  background-color: var(--azul-djl);
+  overflow: hidden;
+}
+
+.inicio-hero h1,
+.inicio-hero p {
+  color: #fff;
+}
+
+.text-naranja { color: var(--naranja-djl) !important; }
+
+/* Botón corporativo */
+.btn-orange {
+  background-color: var(--naranja-djl);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-orange:hover {
+  background-color: #cc361a;
+  color: #fff;
+}
+
+
+/* Estilos personalizados para navbar */
+.navbar {
+  background-color: var(--white-djl) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+  height: 50px;
+}
+
+.navbar-nav .nav-link {
+  color: var(--azul-djl) !important; /* Azul DJL */
+  font-weight: 500;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--naranja-djl) !important; /* Naranja DJL */
+  transition: color 0.3s ease;
+}
+
+/* HERO SECCIÓN VISUALMENTE POTENTE */
+.inicio-hero {
+  background: linear-gradient(to right, #004c8c, #0071BC); /* degradado azul DJL */
+  min-height: 100vh;
+  position: relative;
+  padding: 4rem 0;
+  overflow: hidden;
+}
+
+/* Oscurecimiento sutil */
+.inicio-hero .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.inicio-hero .container {
+  z-index: 2;
+}
+
+.text-naranja {
+  color: #EF4423 !important;
+}
+
+/* Botón moderno */
+.btn-orange {
+  background-color: #EF4423;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-orange:hover {
+  background-color: #cc361a;
+  transform: scale(1.05);
+  color: white;
+}
+
+/* GALERÍA ----------------------------------------------------------------- */
+.galeria-djl {
+  background: #f8f9fa;
+}
+
+.galeria-img {
+  transition: transform 0.4s ease;
+}
+
+.galeria-djl a .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 113, 188, 0.0);   /* transparente azul */
+  transition: background 0.4s ease;
+}
+
+.galeria-djl a:hover .overlay {
+  background: rgba(0, 113, 188, 0.45);  /* azul DJL con transparencia */
+}
+
+.galeria-djl a:hover .galeria-img {
+  transform: scale(1.1);                /* zoom suave */
+  filter: brightness(1.05);
+}
