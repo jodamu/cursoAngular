@@ -27,30 +27,51 @@ class ImageUploadForm(FlaskForm):
     )
     submit = SubmitField('Subir Imágenes')
 
-ICON_CHOICES = [
-    ('bi-briefcase', 'Briefcase'),
-    ('bi-gear', 'Gear'),
-    ('bi-lightbulb', 'Lightbulb'),
-    ('bi-bar-chart', 'Bar Chart'),
-    ('bi-people', 'People'),
-    ('bi-megaphone', 'Megaphone'),
-    ('bi-palette', 'Palette'),
-    ('bi-globe', 'Globe'),
-    ('bi-calendar-event', 'Calendar Event'),
-    ('bi-award', 'Award'),
-    ('bi-camera', 'Camera'),
-    ('bi-music-note', 'Music Note'),
-    ('bi-shop', 'Shop'),
-    ('bi-laptop', 'Laptop'),
-    ('bi-badge-ad', 'Ad Badge')
-
-]
-
 class ServiceForm(FlaskForm):
     title = StringField('Título', validators=[DataRequired()])
     description = TextAreaField('Descripción', validators=[DataRequired()])
-    icon = SelectField('Ícono', choices=ICON_CHOICES, validators=[DataRequired()])
+    icon = StringField('Clase de ícono Bootstrap', validators=[DataRequired()])
     submit = SubmitField('Guardar')
 
+
+class AboutForm(FlaskForm):
+    title = StringField('Título', validators=[DataRequired()])
+    paragraph1 = TextAreaField('Párrafo Principal', validators=[DataRequired()])
+    paragraph2 = TextAreaField('Párrafo Secundario', validators=[DataRequired()])
+    image = FileField('Imagen', validators=[
+        FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Sólo imágenes.')
+    ])
+    submit = SubmitField('Guardar')
+
+class AboutFeatureForm(FlaskForm):
+    
+    icon = StringField('Ícono (clase Bootstrap)', validators=[DataRequired()])
+    title = StringField('Título', validators=[DataRequired()])
+    description = TextAreaField('Descripción', validators=[DataRequired()])
+    submit = SubmitField('Guardar')
+
+
+class TeamMemberForm(FlaskForm):
+    name = StringField('Nombre', validators=[DataRequired()])
+    role = StringField('Cargo', validators=[DataRequired()])
+    description = TextAreaField('Descripción (opcional)')
+    photo = FileField('Foto', validators=[
+        FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Sólo imágenes.')
+    ])
+    submit = SubmitField('Guardar')
+
+class AdvantageForm(FlaskForm):
+    icon = StringField('Ícono (Bootstrap)', validators=[DataRequired()])
+    title = StringField('Título', validators=[DataRequired()])
+    description = TextAreaField('Descripción', validators=[DataRequired()])
+    submit = SubmitField('Guardar')
+
+class ProjectForm(FlaskForm):
+    title = StringField('Título', validators=[DataRequired()])
+    description = TextAreaField('Descripción')
+    image = FileField('Imagen Principal', validators=[
+        FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Sólo imágenes.')
+    ])
+    submit = SubmitField('Guardar')
 
 

@@ -5,8 +5,8 @@ from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from config import Config
-from models import Album, Service, db, User, GalleryImage, ContactMessage
-from forms import ImageUploadForm, LoginForm, ContactForm, ServiceForm
+from models import About, AboutFeature, Advantage, Album, Project, Service, TeamMember, db, User, GalleryImage, ContactMessage
+from forms import AboutFeatureForm, AboutForm, AdvantageForm, ImageUploadForm, LoginForm, ContactForm, ProjectForm, ServiceForm, TeamMemberForm
 import os
 import uuid 
 
@@ -30,17 +30,288 @@ def index():
 
 @app.route('/nosotros')
 def about():
-    return render_template('about.html')
+    about = About.query.first()
+    features = AboutFeature.query.all()
+    team = TeamMember.query.all()
+    return render_template('about.html', about=about, features=features, team=team)
 
 @app.route('/servicios')
 def services():
     services = Service.query.all()
-    return render_template('services.html', services=services)
+    advantages = Advantage.query.all()    
+    projects = Project.query.all()
+    print(projects)
+    return render_template('services.html', services=services, advantages=advantages, projects=projects)
 
 @app.route('/galeria')
 def galeria():
     albums = Album.query.all()
     return render_template('galeria.html', albums=albums)
+
+# Listar proyectos
+@app.route('/admin/projects')
+@login_required
+def admin_projects():
+    projects = Project.query.all()
+    return render_template('admin_projects.html', projects=projects)
+
+# Añadir proyecto
+@app.route('/admin/projects/add', methods=['GET', 'POST'])
+@login_required
+def add_project():
+    form = ProjectForm()
+    if form.validate_on_submit():
+        filename = None
+        if form.image.data:
+            filename = secure_filename(form.image.data.filename)
+            form.image.data.save(os.path.join(app.static_folder, 'images/proyects', filename))
+
+        project = Project(
+            title=form.title.data,
+            description=form.description.data,
+            image_filename=filename
+        )
+        db.session.add(project)
+        db.session.commit()
+        flash('Proyecto añadido.', 'success')
+        return redirect(url_for('admin_projects'))
+    return render_template('admin_project_form.html', form=form)
+
+# Editar proyecto
+@app.route('/admin/projects/edit/<int:project_id>', methods=['GET', 'POST'])
+@login_required
+def edit_project(project_id):
+    project = Project.query.get_or_404(project_id)
+    form = ProjectForm(obj=project)
+    if form.validate_on_submit():
+        if form.image.data:
+            if project.image_filename:
+                old_path = os.path.join(app.static_folder, 'images/proyects', project.image_filename)
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+            filename = secure_filename(form.image.data.filename)
+            form.image.data.save(os.path.join(app.static_folder, 'images/proyects', filename))
+            project.image_filename = filename
+        project.title = form.title.data
+        project.description = form.description.data
+        db.session.commit()
+        flash('Proyecto actualizado.', 'success')
+        return redirect(url_for('admin_projects'))
+    return render_template('admin_project_form.html', form=form, project=project)
+
+# Eliminar proyecto
+@app.route('/admin/projects/delete/<int:project_id>', methods=['POST'])
+@login_required
+def delete_project(project_id):
+    project = Project.query.get_or_404(project_id)
+    if project.image_filename:
+        path = os.path.join(app.static_folder, 'images/proyects', project.image_filename)
+        if os.path.exists(path):
+            os.remove(path)
+    db.session.delete(project)
+    db.session.commit()
+    flash('Proyecto eliminado.', 'success')
+    return redirect(url_for('admin_projects'))
+
+
+# Listar ventajas
+@app.route('/admin/advantages')
+@login_required
+def admin_advantages():
+    advantages = Advantage.query.all()
+    return render_template('admin_advantages.html', advantages=advantages)
+
+# Añadir ventaja
+@app.route('/admin/advantages/add', methods=['GET', 'POST'])
+@login_required
+def add_advantage():
+    form = AdvantageForm()
+    if form.validate_on_submit():
+        advantage = Advantage(
+            icon=form.icon.data,
+            title=form.title.data,
+            description=form.description.data
+        )
+        db.session.add(advantage)
+        db.session.commit()
+        flash('Ventaja añadida.', 'success')
+        return redirect(url_for('admin_advantages'))
+    return render_template('admin_advantage_form.html', form=form)
+
+# Editar ventaja
+@app.route('/admin/advantages/edit/<int:advantage_id>', methods=['GET', 'POST'])
+@login_required
+def edit_advantage(advantage_id):
+    advantage = Advantage.query.get_or_404(advantage_id)
+    form = AdvantageForm(obj=advantage)
+    if form.validate_on_submit():
+        advantage.icon = form.icon.data
+        advantage.title = form.title.data
+        advantage.description = form.description.data
+        db.session.commit()
+        flash('Ventaja actualizada.', 'success')
+        return redirect(url_for('admin_advantages'))
+    return render_template('admin_advantage_form.html', form=form, advantage=advantage)
+
+# Eliminar ventaja
+@app.route('/admin/advantages/delete/<int:advantage_id>', methods=['POST'])
+@login_required
+def delete_advantage(advantage_id):
+    advantage = Advantage.query.get_or_404(advantage_id)
+    db.session.delete(advantage)
+    db.session.commit()
+    flash('Ventaja eliminada.', 'success')
+    return redirect(url_for('admin_advantages'))
+
+
+
+# Listar miembros
+@app.route('/admin/team')
+@login_required
+def admin_team():
+    members = TeamMember.query.all()
+    return render_template('admin_team.html', members=members)
+
+# Añadir miembro
+@app.route('/admin/team/add', methods=['GET', 'POST'])
+@login_required
+def add_team_member():
+    form = TeamMemberForm()
+    if form.validate_on_submit():
+        filename = None
+        if form.photo.data:
+            filename = secure_filename(form.photo.data.filename)
+            form.photo.data.save(os.path.join(app.static_folder, 'images/about', filename))
+
+        member = TeamMember(
+            name=form.name.data,
+            role=form.role.data,
+            description=form.description.data,
+            photo_filename=filename
+        )
+        db.session.add(member)
+        db.session.commit()
+        flash('Miembro añadido.', 'success')
+        return redirect(url_for('admin_team'))
+    return render_template('admin_team_form.html', form=form)
+
+# Editar miembro
+@app.route('/admin/team/edit/<int:member_id>', methods=['GET', 'POST'])
+@login_required
+def edit_team_member(member_id):
+    member = TeamMember.query.get_or_404(member_id)
+    form = TeamMemberForm(obj=member)
+
+    if form.validate_on_submit():
+        if form.photo.data:
+            if member.photo_filename:
+                old_path = os.path.join(app.static_folder, 'images/about', member.photo_filename)
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+            filename = secure_filename(form.photo.data.filename)
+            form.photo.data.save(os.path.join(app.static_folder, 'images/about', filename))
+            member.photo_filename = filename
+
+        member.name = form.name.data
+        member.role = form.role.data
+        member.description = form.description.data
+        db.session.commit()
+        flash('Miembro actualizado.', 'success')
+        return redirect(url_for('admin_team'))
+
+    return render_template('admin_team_form.html', form=form, member=member)
+
+# Eliminar miembro
+@app.route('/admin/team/delete/<int:member_id>', methods=['POST'])
+@login_required
+def delete_team_member(member_id):
+    member = TeamMember.query.get_or_404(member_id)
+    if member.photo_filename:
+        path = os.path.join(app.static_folder, 'images/about', member.photo_filename)
+        if os.path.exists(path):
+            os.remove(path)
+    db.session.delete(member)
+    db.session.commit()
+    flash('Miembro eliminado.', 'success')
+    return redirect(url_for('admin_team'))
+
+
+@app.route('/admin/about', methods=['GET', 'POST'])
+@login_required
+def admin_about():
+    about = About.query.first()
+    if not about:
+        about = About(title='Sobre Nosotros', paragraph1='', paragraph2='', image_filename=None)
+        db.session.add(about)
+        db.session.commit()
+
+    form = AboutForm(obj=about)
+
+    if form.validate_on_submit():
+        about.title = form.title.data
+        about.paragraph1 = form.paragraph1.data
+        about.paragraph2 = form.paragraph2.data
+
+        if form.image.data:
+            # Borrar imagen anterior si existe
+            if about.image_filename:
+                old_path = os.path.join(app.static_folder, 'images/about', about.image_filename)
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+            # Guardar nueva imagen
+            filename = secure_filename(form.image.data.filename)
+            filepath = os.path.join(app.static_folder, 'images/about', filename)
+            form.image.data.save(filepath)
+            about.image_filename = filename
+
+        db.session.commit()
+        flash('Contenido actualizado.', 'success')
+        return redirect(url_for('admin_about'))
+
+    features = AboutFeature.query.all()
+    return render_template('admin_about.html', form=form, features=features, about=about)
+
+@app.route('/admin/about/feature/add', methods=['GET', 'POST'])
+@login_required
+def add_about_feature():
+    form = AboutFeatureForm()
+    if form.validate_on_submit():
+        feature = AboutFeature(
+            icon=form.icon.data,
+            title=form.title.data,
+            description=form.description.data
+        )
+        db.session.add(feature)
+        db.session.commit()
+        flash('Elemento añadido.', 'success')
+        return redirect(url_for('admin_about'))
+    return render_template('admin_feature_form.html', form=form)
+
+@app.route('/admin/about/feature/edit/<int:feature_id>', methods=['GET', 'POST'])
+@login_required
+def edit_about_feature(feature_id):
+    feature = AboutFeature.query.get_or_404(feature_id)
+    form = AboutFeatureForm(obj=feature)
+    if form.validate_on_submit():
+        feature.icon = form.icon.data
+        feature.title = form.title.data
+        feature.description = form.description.data
+        db.session.commit()
+        flash('Elemento actualizado.', 'success')
+        return redirect(url_for('admin_about'))
+    return render_template('admin_feature_form.html', form=form)
+
+@app.route('/admin/about/feature/delete/<int:feature_id>', methods=['POST'])
+@login_required
+def delete_about_feature(feature_id):
+    feature = AboutFeature.query.get_or_404(feature_id)
+    db.session.delete(feature)
+    db.session.commit()
+    flash('Elemento eliminado.', 'success')
+    return redirect(url_for('admin_about'))
+
+
+
 
 @app.route('/admin/services')
 @login_required

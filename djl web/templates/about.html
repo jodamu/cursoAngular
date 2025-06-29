@@ -1,67 +1,46 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="row align-items-center mb-5">
-  <div class="col-md-6 position-relative">
-    <!-- Imagen con logo encima -->
-    <img src="{{ url_for('static', filename='images/mobile-Djl-solutions-1080x675.png') }}" alt="Evento Corporativo" class="img-fluid rounded shadow-sm w-100">
-    <img src="{{ url_for('static', filename='images/djl_logo.png') }}" alt="DJL Solutions" class="position-absolute top-0 start-0 m-2" style="height:60px;">
+<div class="row">
+  <div class="col-md-6">
+    {% if about.image_filename %}
+      <img src="{{ url_for('static', filename='images/about/' + about.image_filename) }}" class="img-fluid rounded" alt="{{ about.title }}">
+    {% else %}
+      <img src="{{ url_for('static', filename='images/about.jpg') }}" class="img-fluid rounded" alt="{{ about.title }}">
+    {% endif %}
   </div>
   <div class="col-md-6">
-    <h1 class="fw-bold mb-3">Sobre Nosotros</h1>
-    <p class="lead">
-      Somos un integrador de servicios para eventos que trabaja con alianzas estratégicas y un equipo altamente calificado. Contamos con amplia experiencia en planeación, producción y ejecución de eventos corporativos y sociales.
-    </p>
-    <p>
-      Acompañamos a nuestros clientes desde la concepción de la idea hasta la operación impecable de cada proyecto. Nuestra pasión es crear experiencias únicas que generen valor y dejen huella.
-    </p>
+    <h1 class="fw-bold">{{ about.title }}</h1>
+    <p>{{ about.paragraph1 }}</p>
+    <p>{{ about.paragraph2 }}</p>
   </div>
 </div>
+<div class="row mt-5">
+  {% for f in features %}
+  <div class="col-md-3 text-center">
+    <div class="card p-3 shadow-sm">
+      <i class="bi {{ f.icon }} fs-1 text-primary"></i>
+      <h5 class="fw-bold mt-2">{{ f.title }}</h5>
+      <p>{{ f.description }}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
-<div class="row text-center g-4">
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
+<h2 class="fw-bold mt-5">Nuestro Equipo</h2>
+<div class="row mt-4">
+  {% for m in team %}
+  <div class="col-md-3 text-center mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      {% if m.photo_filename %}
+      <img src="{{ url_for('static', filename='images/about/' + m.photo_filename) }}" class="rounded-circle mt-3" style="width:120px; height:120px; object-fit:cover;">
+      {% endif %}
       <div class="card-body">
-        <div class="mb-3 text-primary fs-1">
-          <i class="bi bi-people"></i>
-        </div>
-        <h5 class="card-title fw-bold">Equipo Experto</h5>
-        <p class="card-text">Profesionales comprometidos con la excelencia y el detalle.</p>
+        <h5 class="fw-bold">{{ m.name }}</h5>
+        <p class="text-muted">{{ m.role }}</p>
+        <p class="small">{{ m.description }}</p>
       </div>
     </div>
   </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body">
-        <div class="mb-3 text-primary fs-1">
-          <i class="bi bi-lightbulb"></i>
-        </div>
-        <h5 class="card-title fw-bold">Creatividad</h5>
-        <p class="card-text">Soluciones innovadoras para eventos memorables.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body">
-        <div class="mb-3 text-primary fs-1">
-          <i class="bi bi-calendar-event"></i>
-        </div>
-        <h5 class="card-title fw-bold">Gestión Integral</h5>
-        <p class="card-text">Planeación y operación de principio a fin.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body">
-        <div class="mb-3 text-primary fs-1">
-          <i class="bi bi-heart"></i>
-        </div>
-        <h5 class="card-title fw-bold">Pasión</h5>
-        <p class="card-text">Comprometidos con el éxito de cada proyecto.</p>
-      </div>
-    </div>
-  </div>
+  {% endfor %}
 </div>
 {% endblock %}

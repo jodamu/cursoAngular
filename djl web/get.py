@@ -10,11 +10,13 @@ soup = BeautifulSoup(response.text, "html.parser")
 
 # Buscar íconos dentro de la lista
 icons = []
-icon_divs = soup.select("#icons-list")
+icon_divs = soup.select("#icons-list > li > a >div>i")
 for div in icon_divs:
    
     classes = div.get("class", [])
     for c in classes:
+        print(c)
+        print(c.startswith("bi-"))
         if c.startswith("bi-"):
             icons.append(c)
 

@@ -35,5 +35,39 @@ class Service(db.Model):
     description = db.Column(db.Text, nullable=False)
     icon = db.Column(db.String(50), nullable=False)  # clase de ícono Bootstrap
 
+class About(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    paragraph1 = db.Column(db.Text, nullable=False)
+    paragraph2 = db.Column(db.Text, nullable=False)
+    image_filename = db.Column(db.String(255), nullable=True)  # Imagen opcional
+
+class AboutFeature(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    icon = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+
+
+class TeamMember(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    role = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    photo_filename = db.Column(db.String(255), nullable=True)
+
+
+class Advantage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    icon = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    image_filename = db.Column(db.String(255), nullable=True)
+
 
 

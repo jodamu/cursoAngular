@@ -28,45 +28,39 @@
 <section class="py-5 bg-light text-center">
   <div class="container">
     <h2 class="fw-bold mb-4">¿Por qué elegirnos?</h2>
-    <div class="row g-4">
-      <div class="col-md-3">
-        <div class="fs-1 text-primary mb-2"><i class="bi bi-award"></i></div>
-        <h5 class="fw-bold">Experiencia</h5>
-        <p>Múltiples proyectos exitosos en diversos sectores.</p>
-      </div>
-      <div class="col-md-3">
-        <div class="fs-1 text-primary mb-2"><i class="bi bi-lightbulb"></i></div>
-        <h5 class="fw-bold">Creatividad</h5>
-        <p>Propuestas innovadoras y diferenciadoras.</p>
-      </div>
-      <div class="col-md-3">
-        <div class="fs-1 text-primary mb-2"><i class="bi bi-shield-check"></i></div>
-        <h5 class="fw-bold">Calidad</h5>
-        <p>Estándares rigurosos en cada proceso.</p>
-      </div>
-      <div class="col-md-3">
-        <div class="fs-1 text-primary mb-2"><i class="bi bi-people"></i></div>
-        <h5 class="fw-bold">Compromiso</h5>
-        <p>Atención cercana y acompañamiento permanente.</p>
-      </div>
+<div class="row">
+  {% for a in advantages %}
+  <div class="col-md-3 text-center mb-4">
+    <div class="card border-0 shadow-sm h-100 p-3">
+      <i class="bi {{ a.icon }} fs-1 text-primary"></i>
+      <h5 class="fw-bold mt-2">{{ a.title }}</h5>
+      <p>{{ a.description }}</p>
     </div>
+  </div>
+  {% endfor %}
+</div>
   </div>
 </section>
 
 <!-- Galería de Proyectos -->
 <section class="my-5 text-center">
-  <h2 class="fw-bold mb-4">Nuestros Proyectos</h2>
-  <div class="row g-3">
-    <div class="col-md-4">
-      <img src="{{ url_for('static', filename='images/proyecto1.jpg') }}" alt="Proyecto 1" class="img-fluid rounded shadow">
-    </div>
-    <div class="col-md-4">
-      <img src="{{ url_for('static', filename='images/proyecto2.jpg') }}" alt="Proyecto 2" class="img-fluid rounded shadow">
-    </div>
-    <div class="col-md-4">
-      <img src="{{ url_for('static', filename='images/proyecto3.jpg') }}" alt="Proyecto 3" class="img-fluid rounded shadow">
+ <h1 class="fw-bold mb-4">Algunos de nuestros Proyectos</h1>
+
+<div class="row">
+  {% for p in projects %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      {% if p.image_filename %}
+      <img src="{{ url_for('static', filename='images/proyects/' + p.image_filename) }}" class="card-img-top" alt="{{ p.title }}">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="fw-bold">{{ p.title }}</h5>
+        <p>{{ p.description }}</p>
+      </div>
     </div>
   </div>
+  {% endfor %}
+</div>
 </section>
 
 <!-- Testimonios -->

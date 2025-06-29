@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="fw-bold mb-4">Nuestro Equipo</h1>
+
+<a class="btn btn-primary mb-3" href="{{ url_for('add_team_member') }}">Añadir Miembro</a>
+
+<div class="row">
+  {% for m in members %}
+  <div class="col-md-4 mb-3">
+    <div class="card h-100">
+      {% if m.photo_filename %}
+      <img src="{{ url_for('static', filename='images/about/' + m.photo_filename) }}" class="card-img-top" alt="{{ m.name }}">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ m.name }}</h5>
+        <p class="card-subtitle text-muted">{{ m.role }}</p>
+        <p class="card-text mt-2">{{ m.description }}</p>
+        <a href="{{ url_for('edit_team_member', member_id=m.id) }}" class="btn btn-sm btn-secondary">Editar</a>
+        <form action="{{ url_for('delete_team_member', member_id=m.id) }}" method="POST" style="display:inline;">
+          <button class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este miembro?');">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

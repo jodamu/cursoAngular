@@ -67,6 +67,27 @@
                 <i class="bi bi-gear me-2"></i> Servicios
               </a>
             </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('admin_about') }}">
+                <i class="bi bi-gear me-2"></i> Acerca de nosotros
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('admin_team') }}">
+                <i class="bi bi-gear me-2"></i> Equipo
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('admin_advantages') }}">
+                <i class="bi bi-gear me-2"></i> Porque elegirnos?
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('admin_projects') }}">
+                <i class="bi bi-gear me-2"></i> Proyectos
+              </a>
+            </li>
+
             <li><hr class="dropdown-divider"></li>
             <li>
               <a class="dropdown-item text-danger" href="{{ url_for('admin_logout') }}">
@@ -118,56 +139,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const allIcons = [
-  "bi-alarm", "bi-alexa", "bi-align-bottom", "bi-align-center", "bi-align-end", "bi-align-middle", "bi-align-start",
-  "bi-align-top", "bi-alt", "bi-app", "bi-app-indicator", "bi-archive", "bi-arrow-90deg-down", "bi-arrow-90deg-left",
-  "bi-arrow-90deg-right", "bi-arrow-90deg-up", "bi-arrow-bar-down", "bi-arrow-bar-left", "bi-arrow-bar-right",
-  "bi-arrow-bar-up", "bi-arrow-clockwise", "bi-arrow-counterclockwise", "bi-arrow-down", "bi-arrow-down-circle",
-  "bi-arrow-down-left", "bi-arrow-down-right", "bi-arrow-down-short", "bi-arrow-down-square", "bi-arrow-down-up",
-  "bi-arrow-left", "bi-arrow-left-circle", "bi-arrow-left-right", "bi-arrow-left-short", "bi-arrow-left-square",
-  "bi-arrow-repeat", "bi-arrow-return-left", "bi-arrow-return-right", "bi-arrow-right", "bi-arrow-right-circle",
-  "bi-arrow-right-short", "bi-arrow-right-square", "bi-arrow-through-heart", "bi-arrow-up", "bi-arrow-up-circle",
-  "bi-arrow-up-left", "bi-arrow-up-right", "bi-arrow-up-short", "bi-arrow-up-square", "bi-arrows-angle-contract",
-  "bi-arrows-angle-expand", "bi-arrows-collapse", "bi-arrows-expand", "bi-arrows-fullscreen",
-  "bi-arrows-move", "bi-aspect-ratio", "bi-aspect-ratio-fill",
-  // ... (Más íconos aquí, puedes copiar todo desde https://icons.getbootstrap.com/)
-  "bi-award", "bi-badge-3d", "bi-badge-4k", "bi-badge-8k", "bi-badge-ad", "bi-badge-ar", "bi-badge-cc", "bi-badge-hd",
-  "bi-badge-sd", "bi-badge-tm", "bi-badge-vo", "bi-badge-vr", "bi-badge-wc", "bi-bag", "bi-bag-check",
-  "bi-bag-dash", "bi-bag-fill", "bi-bag-plus", "bi-bag-x", "bi-bar-chart", "bi-bar-chart-fill",
-  "bi-bar-chart-line", "bi-bar-chart-steps", "bi-basket", "bi-basket-fill", "bi-battery", "bi-bell",
-  "bi-bell-fill", "bi-bezier", "bi-bezier2", "bi-bicycle", "bi-binoculars", "bi-blockquote-left",
-  "bi-blockquote-right", "bi-book", "bi-book-fill", "bi-book-half", "bi-bookmark", "bi-bookmark-check",
-  "bi-bookmark-dash", "bi-bookmark-fill", "bi-bookmark-heart", "bi-bookmark-plus", "bi-bookmark-star",
-  "bi-bookmark-x", "bi-box", "bi-box-arrow-down", "bi-box-arrow-in-down", "bi-box-arrow-in-left",
-  "bi-box-arrow-in-right", "bi-box-arrow-in-up", "bi-box-arrow-left", "bi-box-arrow-right", "bi-box-arrow-up",
-  "bi-box-seam", "bi-box2", "bi-box2-fill", "bi-box2-heart", "bi-box2-heart-fill",
-  "bi-briefcase", "bi-brightness-alt-high", "bi-brightness-alt-low", "bi-brightness-high", "bi-brightness-low",
-  "bi-broadcast", "bi-brush", "bi-bucket", "bi-bug", "bi-building", "bi-bullseye",
-  "bi-calendar", "bi-calendar-check", "bi-calendar-date", "bi-calendar-day", "bi-calendar-event",
-  "bi-calendar-minus", "bi-calendar-month", "bi-calendar-plus", "bi-calendar-range", "bi-calendar-week",
-  "bi-calendar-x", "bi-camera", "bi-camera-reels", "bi-camera-video", "bi-capslock",
-  "bi-card-checklist", "bi-card-heading", "bi-card-image", "bi-card-list", "bi-card-text", "bi-caret-down",
-  "bi-caret-down-fill", "bi-caret-down-square", "bi-caret-left", "bi-caret-left-fill", "bi-caret-right",
-  "bi-caret-right-fill", "bi-caret-up", "bi-caret-up-fill", "bi-cart", "bi-cart-check", "bi-cart-dash",
-  "bi-cart-fill", "bi-cart-plus", "bi-cart-x", "bi-cash", "bi-cast", "bi-chat", "bi-chat-dots",
-  "bi-chat-fill", "bi-check", "bi-check-all", "bi-check-circle", "bi-check-circle-fill",
-  "bi-check-square", "bi-chevron-bar-contract", "bi-chevron-bar-down", "bi-chevron-bar-expand",
-  "bi-chevron-bar-left", "bi-chevron-bar-right", "bi-chevron-bar-up", "bi-chevron-compact-down",
-  "bi-chevron-compact-left", "bi-chevron-compact-right", "bi-chevron-compact-up", "bi-chevron-contract",
-  "bi-chevron-double-down", "bi-chevron-double-left", "bi-chevron-double-right", "bi-chevron-double-up",
-  "bi-chevron-down", "bi-chevron-expand", "bi-chevron-left", "bi-chevron-right", "bi-chevron-up",
-  "bi-circle", "bi-circle-fill", "bi-clipboard", "bi-clipboard-check", "bi-clipboard-data", "bi-clipboard-fill",
-  "bi-clipboard-heart", "bi-clipboard-minus", "bi-clipboard-plus", "bi-clipboard-pulse", "bi-clipboard-x",
-  "bi-clock", "bi-cloud", "bi-cloud-arrow-down", "bi-cloud-arrow-up", "bi-cloud-check", "bi-cloud-download",
-  "bi-cloud-fill", "bi-cloud-upload", "bi-code", "bi-code-slash", "bi-collection", "bi-collection-fill",
-  "bi-columns", "bi-command", "bi-compass", "bi-compass-fill", "bi-cone", "bi-cone-striped",
-  "bi-controller", "bi-cpu", "bi-credit-card", "bi-crop", "bi-crosshair", "bi-cup", "bi-cursor",
-  "bi-cursor-fill", "bi-cursor-text","bi-0-square"
-];
-
-$(document).ready(function() {
+$.getJSON('{{ url_for("static", filename="icons/bootstrap-icons.json") }}', function(data) {
   const select = $('#iconSelect');
-  allIcons.forEach(icon => {
+  data.forEach(icon => {
     select.append(`<option value="${icon}" data-icon="${icon}">${icon}</option>`);
   });
 
@@ -177,16 +151,17 @@ $(document).ready(function() {
     width: '100%'
   });
 
-  function formatIcon(state) {
-    if (!state.id) return state.text;
-    return $(`<span><i class="bi ${state.element.dataset.icon} me-2"></i>${state.text}</span>`);
-  }
-
   select.on('change', function() {
     const selectedIcon = $(this).val();
     $('#iconPreview').attr('class', 'bi ' + selectedIcon + ' fs-2');
   });
 });
+
+function formatIcon(state) {
+  if (!state.id) return state.text;
+  return $(`<span><i class="bi ${state.element.dataset.icon} me-2"></i>${state.text}</span>`);
+}
+
 </script>
 
 </body>
