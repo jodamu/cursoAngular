@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="fw-bold mb-4">Administrar Servicios</h1>
+<a href="{{ url_for('new_service') }}" class="btn btn-primary mb-3">Nuevo Servicio</a>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Ícono</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in services %}
+    <tr>
+      <td>{{ s.title }}</td>
+      <td><i class="bi {{ s.icon }}"></i> {{ s.icon }}</td>
+      <td>
+        <a href="{{ url_for('edit_service', service_id=s.id) }}" class="btn btn-sm btn-warning">Editar</a>
+        <form action="{{ url_for('delete_service', service_id=s.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que quieres eliminar este servicio?');">
+          <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

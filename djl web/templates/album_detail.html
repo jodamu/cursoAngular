@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="fw-bold mb-4 text-center">{{ album.name }}</h1>
+<p class="lead text-center">{{ album.description }}</p>
+
+<div class="row g-3">
+  {% for img in album.images %}
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm">
+      <img src="{{ url_for('static', filename='images/galeria/' ~ img.filename) }}" class="img-fluid rounded"
+        alt="Imagen de álbum">
+      {% if current_user.is_authenticated %}
+      <form action="{{ url_for('delete_image', image_id=img.id) }}" method="POST"
+        onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
+        <button type="submit" class="btn btn-sm btn-danger mt-2 w-100">Eliminar</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+  {% else %}
+  <p class="text-center">No hay imágenes en este álbum todavía.</p>
+  {% endfor %}
+</div>
+{% endblock %}

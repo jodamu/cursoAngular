@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DJL Solutions</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+ <!-- Navbar -->
+<nav class="navbar navbar-expand-lg" style="background-color: #1d70b7;">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center text-white" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='images/djl_logo.png') }}" height="40" alt="Logo DJL" class="me-2">
+      <span class="fw-bold">DJL Solutions</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{{ url_for('index') }}">
+            <i class="bi bi-house-door me-1"></i> Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{{ url_for('about') }}">
+            <i class="bi bi-info-circle me-1"></i> Nosotros
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{{ url_for('services') }}">
+            <i class="bi bi-briefcase me-1"></i> Servicios
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{{ url_for('galeria') }}">
+            <i class="bi bi-images me-1"></i> Galería
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{{ url_for('contact') }}">
+            <i class="bi bi-envelope me-1"></i> Contacto
+          </a>
+        </li>
+
+        {% if current_user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-gear me-1"></i> Administrador
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="{{ url_for('upload_image') }}">
+                <i class="bi bi-upload me-2"></i> Subir Imagen
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('admin_services') }}">
+                <i class="bi bi-gear me-2"></i> Servicios
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item text-danger" href="{{ url_for('admin_logout') }}">
+                <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+              </a>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{{ url_for('admin_login') }}">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+  <!-- Contenido -->
+  <main class="container-fluid py-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer text-center mt-4">
+    <div class="container">
+      <p class="mb-1">&copy; {{ current_year }} DJL Solutions. Todos los derechos reservados.</p>
+      <a href="https://wa.me/573150577530" class="btn btn-primary btn-sm">📱 Contáctanos por WhatsApp</a>
+    </div>
+  </footer>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const allIcons = [
+  "bi-alarm", "bi-alexa", "bi-align-bottom", "bi-align-center", "bi-align-end", "bi-align-middle", "bi-align-start",
+  "bi-align-top", "bi-alt", "bi-app", "bi-app-indicator", "bi-archive", "bi-arrow-90deg-down", "bi-arrow-90deg-left",
+  "bi-arrow-90deg-right", "bi-arrow-90deg-up", "bi-arrow-bar-down", "bi-arrow-bar-left", "bi-arrow-bar-right",
+  "bi-arrow-bar-up", "bi-arrow-clockwise", "bi-arrow-counterclockwise", "bi-arrow-down", "bi-arrow-down-circle",
+  "bi-arrow-down-left", "bi-arrow-down-right", "bi-arrow-down-short", "bi-arrow-down-square", "bi-arrow-down-up",
+  "bi-arrow-left", "bi-arrow-left-circle", "bi-arrow-left-right", "bi-arrow-left-short", "bi-arrow-left-square",
+  "bi-arrow-repeat", "bi-arrow-return-left", "bi-arrow-return-right", "bi-arrow-right", "bi-arrow-right-circle",
+  "bi-arrow-right-short", "bi-arrow-right-square", "bi-arrow-through-heart", "bi-arrow-up", "bi-arrow-up-circle",
+  "bi-arrow-up-left", "bi-arrow-up-right", "bi-arrow-up-short", "bi-arrow-up-square", "bi-arrows-angle-contract",
+  "bi-arrows-angle-expand", "bi-arrows-collapse", "bi-arrows-expand", "bi-arrows-fullscreen",
+  "bi-arrows-move", "bi-aspect-ratio", "bi-aspect-ratio-fill",
+  // ... (Más íconos aquí, puedes copiar todo desde https://icons.getbootstrap.com/)
+  "bi-award", "bi-badge-3d", "bi-badge-4k", "bi-badge-8k", "bi-badge-ad", "bi-badge-ar", "bi-badge-cc", "bi-badge-hd",
+  "bi-badge-sd", "bi-badge-tm", "bi-badge-vo", "bi-badge-vr", "bi-badge-wc", "bi-bag", "bi-bag-check",
+  "bi-bag-dash", "bi-bag-fill", "bi-bag-plus", "bi-bag-x", "bi-bar-chart", "bi-bar-chart-fill",
+  "bi-bar-chart-line", "bi-bar-chart-steps", "bi-basket", "bi-basket-fill", "bi-battery", "bi-bell",
+  "bi-bell-fill", "bi-bezier", "bi-bezier2", "bi-bicycle", "bi-binoculars", "bi-blockquote-left",
+  "bi-blockquote-right", "bi-book", "bi-book-fill", "bi-book-half", "bi-bookmark", "bi-bookmark-check",
+  "bi-bookmark-dash", "bi-bookmark-fill", "bi-bookmark-heart", "bi-bookmark-plus", "bi-bookmark-star",
+  "bi-bookmark-x", "bi-box", "bi-box-arrow-down", "bi-box-arrow-in-down", "bi-box-arrow-in-left",
+  "bi-box-arrow-in-right", "bi-box-arrow-in-up", "bi-box-arrow-left", "bi-box-arrow-right", "bi-box-arrow-up",
+  "bi-box-seam", "bi-box2", "bi-box2-fill", "bi-box2-heart", "bi-box2-heart-fill",
+  "bi-briefcase", "bi-brightness-alt-high", "bi-brightness-alt-low", "bi-brightness-high", "bi-brightness-low",
+  "bi-broadcast", "bi-brush", "bi-bucket", "bi-bug", "bi-building", "bi-bullseye",
+  "bi-calendar", "bi-calendar-check", "bi-calendar-date", "bi-calendar-day", "bi-calendar-event",
+  "bi-calendar-minus", "bi-calendar-month", "bi-calendar-plus", "bi-calendar-range", "bi-calendar-week",
+  "bi-calendar-x", "bi-camera", "bi-camera-reels", "bi-camera-video", "bi-capslock",
+  "bi-card-checklist", "bi-card-heading", "bi-card-image", "bi-card-list", "bi-card-text", "bi-caret-down",
+  "bi-caret-down-fill", "bi-caret-down-square", "bi-caret-left", "bi-caret-left-fill", "bi-caret-right",
+  "bi-caret-right-fill", "bi-caret-up", "bi-caret-up-fill", "bi-cart", "bi-cart-check", "bi-cart-dash",
+  "bi-cart-fill", "bi-cart-plus", "bi-cart-x", "bi-cash", "bi-cast", "bi-chat", "bi-chat-dots",
+  "bi-chat-fill", "bi-check", "bi-check-all", "bi-check-circle", "bi-check-circle-fill",
+  "bi-check-square", "bi-chevron-bar-contract", "bi-chevron-bar-down", "bi-chevron-bar-expand",
+  "bi-chevron-bar-left", "bi-chevron-bar-right", "bi-chevron-bar-up", "bi-chevron-compact-down",
+  "bi-chevron-compact-left", "bi-chevron-compact-right", "bi-chevron-compact-up", "bi-chevron-contract",
+  "bi-chevron-double-down", "bi-chevron-double-left", "bi-chevron-double-right", "bi-chevron-double-up",
+  "bi-chevron-down", "bi-chevron-expand", "bi-chevron-left", "bi-chevron-right", "bi-chevron-up",
+  "bi-circle", "bi-circle-fill", "bi-clipboard", "bi-clipboard-check", "bi-clipboard-data", "bi-clipboard-fill",
+  "bi-clipboard-heart", "bi-clipboard-minus", "bi-clipboard-plus", "bi-clipboard-pulse", "bi-clipboard-x",
+  "bi-clock", "bi-cloud", "bi-cloud-arrow-down", "bi-cloud-arrow-up", "bi-cloud-check", "bi-cloud-download",
+  "bi-cloud-fill", "bi-cloud-upload", "bi-code", "bi-code-slash", "bi-collection", "bi-collection-fill",
+  "bi-columns", "bi-command", "bi-compass", "bi-compass-fill", "bi-cone", "bi-cone-striped",
+  "bi-controller", "bi-cpu", "bi-credit-card", "bi-crop", "bi-crosshair", "bi-cup", "bi-cursor",
+  "bi-cursor-fill", "bi-cursor-text","bi-0-square"
+];
+
+$(document).ready(function() {
+  const select = $('#iconSelect');
+  allIcons.forEach(icon => {
+    select.append(`<option value="${icon}" data-icon="${icon}">${icon}</option>`);
+  });
+
+  select.select2({
+    templateResult: formatIcon,
+    templateSelection: formatIcon,
+    width: '100%'
+  });
+
+  function formatIcon(state) {
+    if (!state.id) return state.text;
+    return $(`<span><i class="bi ${state.element.dataset.icon} me-2"></i>${state.text}</span>`);
+  }
+
+  select.on('change', function() {
+    const selectedIcon = $(this).val();
+    $('#iconPreview').attr('class', 'bi ' + selectedIcon + ' fs-2');
+  });
+});
+</script>
+
+</body>
+
+</html>

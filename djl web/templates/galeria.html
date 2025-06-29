@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="mb-5 text-center">
+  <h1 class="fw-bold mb-4">Nuestros Álbumes</h1>
+  <p class="lead mx-auto" style="max-width: 800px;">
+    Explora nuestras colecciones de proyectos y eventos.
+  </p>
+</section>
+
+<div class="row g-4">
+  {% for album in albums %}
+  <div class="col-md-4">
+    <div class="card border-0 shadow-sm h-100 album-card position-relative overflow-hidden">
+      {% if album.images %}
+        <a href="{{ url_for('album_detail', album_id=album.id) }}">
+          <img src="{{ url_for('static', filename='images/galeria/' ~ album.images[0].filename) }}"
+               class="card-img-top img-fluid album-image"
+               alt="Imagen de álbum">
+        </a>
+      {% else %}
+        <a href="{{ url_for('album_detail', album_id=album.id) }}">
+          <img src="{{ url_for('static', filename='images/galeria/no_image.jpg') }}"
+               class="card-img-top img-fluid album-image"
+               alt="Sin imágenes">
+        </a>
+      {% endif %}
+      <div class="card-body text-center">
+        <h5 class="card-title fw-bold">{{ album.name }}</h5>
+        <p class="card-text">{{ album.description }}</p>
+        <p class="text-muted small">{{ album.images | length }} imagen(es)</p>
+        <a href="{{ url_for('album_detail', album_id=album.id) }}" class="btn btn-primary mt-2">Ver imágenes</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

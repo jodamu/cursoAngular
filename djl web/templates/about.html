@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row align-items-center mb-5">
+  <div class="col-md-6 position-relative">
+    <!-- Imagen con logo encima -->
+    <img src="{{ url_for('static', filename='images/mobile-Djl-solutions-1080x675.png') }}" alt="Evento Corporativo" class="img-fluid rounded shadow-sm w-100">
+    <img src="{{ url_for('static', filename='images/djl_logo.png') }}" alt="DJL Solutions" class="position-absolute top-0 start-0 m-2" style="height:60px;">
+  </div>
+  <div class="col-md-6">
+    <h1 class="fw-bold mb-3">Sobre Nosotros</h1>
+    <p class="lead">
+      Somos un integrador de servicios para eventos que trabaja con alianzas estratégicas y un equipo altamente calificado. Contamos con amplia experiencia en planeación, producción y ejecución de eventos corporativos y sociales.
+    </p>
+    <p>
+      Acompañamos a nuestros clientes desde la concepción de la idea hasta la operación impecable de cada proyecto. Nuestra pasión es crear experiencias únicas que generen valor y dejen huella.
+    </p>
+  </div>
+</div>
+
+<div class="row text-center g-4">
+  <div class="col-md-3">
+    <div class="card border-0 shadow h-100">
+      <div class="card-body">
+        <div class="mb-3 text-primary fs-1">
+          <i class="bi bi-people"></i>
+        </div>
+        <h5 class="card-title fw-bold">Equipo Experto</h5>
+        <p class="card-text">Profesionales comprometidos con la excelencia y el detalle.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow h-100">
+      <div class="card-body">
+        <div class="mb-3 text-primary fs-1">
+          <i class="bi bi-lightbulb"></i>
+        </div>
+        <h5 class="card-title fw-bold">Creatividad</h5>
+        <p class="card-text">Soluciones innovadoras para eventos memorables.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow h-100">
+      <div class="card-body">
+        <div class="mb-3 text-primary fs-1">
+          <i class="bi bi-calendar-event"></i>
+        </div>
+        <h5 class="card-title fw-bold">Gestión Integral</h5>
+        <p class="card-text">Planeación y operación de principio a fin.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card border-0 shadow h-100">
+      <div class="card-body">
+        <div class="mb-3 text-primary fs-1">
+          <i class="bi bi-heart"></i>
+        </div>
+        <h5 class="card-title fw-bold">Pasión</h5>
+        <p class="card-text">Comprometidos con el éxito de cada proyecto.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

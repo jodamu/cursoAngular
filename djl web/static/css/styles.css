@@ -1,0 +1,52 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.navbar {
+    background-color: #1d70b7;
+}
+
+.navbar .nav-link,
+.navbar-brand {
+    color: white !important;
+}
+
+.btn-primary {
+    background-color: #e94e1a;
+    border-color: #e94e1a;
+}
+
+.btn-primary:hover {
+    background-color: #c93f14;
+    border-color: #c93f14;
+}
+
+.footer {
+    background-color: #1d70b7;
+    color: white;
+    padding: 20px 0;
+}
+
+.album-card {
+  transition: transform 0.3s ease;
+}
+
+.album-card:hover {
+  transform: scale(1.03);
+}
+
+.album-image {
+  transition: opacity 0.3s ease;
+}
+
+.album-image:hover {
+  opacity: 0.8;
+}
+
+.dropdown-menu a.dropdown-item:hover {
+  background-color: #e94e1a;
+  color: white;
+}
+

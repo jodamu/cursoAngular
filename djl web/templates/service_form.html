@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="fw-bold mb-4">{{ title }}</h1>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+
+  <div class="mb-3">
+    {{ form.title.label(class="form-label") }}
+    {{ form.title(class="form-control") }}
+  </div>
+
+  <div class="mb-3">
+    {{ form.description.label(class="form-label") }}
+    {{ form.description(class="form-control", rows=4) }}
+  </div>
+
+  <div class="mb-3">
+  {{ form.icon.label(class="form-label") }}
+  <select id="iconSelect" name="icon" class="form-select">
+    {% for value, label in form.icon.choices %}
+    <option value="{{ value }}" data-icon="{{ value }}" {% if form.icon.data == value %}selected{% endif %}>
+      {{ label }}
+    </option>
+    {% endfor %}
+  </select>
+  <div class="mt-2">
+    <i id="iconPreview" class="bi {{ form.icon.data or 'bi-briefcase' }} fs-2"></i>
+    <small class="text-muted ms-2">Vista previa del ícono seleccionado</small>
+  </div>
+</div>
+
+  <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
+</form>
+
+<!-- Script para actualizar el ícono dinámicamente -->
+<script>
+document.getElementById('iconSelect').addEventListener('change', function() {
+  const selectedIcon = this.value;
+  document.getElementById('iconPreview').className = 'bi ' + selectedIcon + ' fs-2';
+});
+</script>
+{% endblock %}

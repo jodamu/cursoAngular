@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="mb-5 text-center">
+  <h1 class="fw-bold mb-4">Lo que ofrecemos</h1>
+  <p class="lead mx-auto" style="max-width: 800px;">
+    Soluciones integrales para la planeación, producción y ejecución de eventos únicos y memorables.
+  </p>
+</section>
+
+<!-- Servicios principales -->
+<h1 class="fw-bold mb-4">Nuestros Servicios</h1>
+<div class="row g-4">
+  {% for s in services %}
+  <div class="col-md-3">
+    <div class="card h-100 border-0 shadow text-center">
+      <div class="card-body">
+        <div class="fs-1 text-primary mb-2"><i class="bi {{ s.icon }}"></i></div>
+        <h5 class="fw-bold">{{ s.title }}</h5>
+        <p>{{ s.description }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Beneficios -->
+<section class="py-5 bg-light text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-4">¿Por qué elegirnos?</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="fs-1 text-primary mb-2"><i class="bi bi-award"></i></div>
+        <h5 class="fw-bold">Experiencia</h5>
+        <p>Múltiples proyectos exitosos en diversos sectores.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="fs-1 text-primary mb-2"><i class="bi bi-lightbulb"></i></div>
+        <h5 class="fw-bold">Creatividad</h5>
+        <p>Propuestas innovadoras y diferenciadoras.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="fs-1 text-primary mb-2"><i class="bi bi-shield-check"></i></div>
+        <h5 class="fw-bold">Calidad</h5>
+        <p>Estándares rigurosos en cada proceso.</p>
+      </div>
+      <div class="col-md-3">
+        <div class="fs-1 text-primary mb-2"><i class="bi bi-people"></i></div>
+        <h5 class="fw-bold">Compromiso</h5>
+        <p>Atención cercana y acompañamiento permanente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Galería de Proyectos -->
+<section class="my-5 text-center">
+  <h2 class="fw-bold mb-4">Nuestros Proyectos</h2>
+  <div class="row g-3">
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='images/proyecto1.jpg') }}" alt="Proyecto 1" class="img-fluid rounded shadow">
+    </div>
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='images/proyecto2.jpg') }}" alt="Proyecto 2" class="img-fluid rounded shadow">
+    </div>
+    <div class="col-md-4">
+      <img src="{{ url_for('static', filename='images/proyecto3.jpg') }}" alt="Proyecto 3" class="img-fluid rounded shadow">
+    </div>
+  </div>
+</section>
+
+<!-- Testimonios -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-4">Lo que dicen nuestros clientes</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <blockquote class="blockquote text-center">
+          <p class="mb-2">"DJL Solutions hizo que nuestro evento fuera un éxito rotundo."</p>
+          <footer class="blockquote-footer">María Gómez, Gerente de Marketing</footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="blockquote text-center">
+          <p class="mb-2">"Un equipo comprometido y profesional que superó nuestras expectativas."</p>
+          <footer class="blockquote-footer">Carlos Pérez, Director Comercial</footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="blockquote text-center">
+          <p class="mb-2">"Gracias a su experiencia todo salió perfecto."</p>
+          <footer class="blockquote-footer">Laura Fernández, Coordinadora de Eventos</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Llamado a la Acción -->
+<section class="text-center py-5">
+  <h2 class="fw-bold mb-3">¿Listo para crear un evento inolvidable?</h2>
+  <p class="lead mb-4">Contáctanos y recibe una asesoría personalizada.</p>
+  <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">Solicitar Cotización</a>
+</section>
+{% endblock %}
