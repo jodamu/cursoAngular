@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="fw-bold mb-4">Administrar Página de Inicio</h1>
+
+<!-- Slides -->
+<section class="mb-5">
+  <h2 class="h4">Carrusel de Slides</h2>
+  <a href="{{ url_for('add_home_slide') }}" class="btn btn-primary btn-sm mb-3">Añadir Slide</a>
+  <div class="row">
+    {% for s in slides %}
+    <div class="col-md-3 mb-3">
+      <div class="card h-100">
+        {% if s.image_filename %}
+        <img src="{{ url_for('static', filename='images/home/' + s.image_filename) }}" class="card-img-top" style="height:150px; object-fit:cover;">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ s.title }}</h5>
+          <p class="card-text">{{ s.description }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <a href="{{ url_for('edit_home_slide', slide_id=s.id) }}" class="btn btn-sm btn-secondary">Editar</a>
+          <form action="{{ url_for('delete_home_slide', slide_id=s.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este slide?');">Eliminar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-muted">No hay slides cargados.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<hr>
+
+<!-- Bienvenida -->
+<section class="mb-5">
+  <h2 class="h4">Texto de Bienvenida</h2>
+  {% if welcome %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="fw-bold">{{ welcome.title }}</h5>
+        <p>{{ welcome.paragraph | safe }}</p>
+        <a href="{{ url_for('edit_home_welcome') }}" class="btn btn-sm btn-primary">Editar Bienvenida</a>
+      </div>
+    </div>
+  {% else %}
+    <p class="text-muted">No hay texto de bienvenida.</p>
+    <a href="{{ url_for('edit_home_welcome') }}" class="btn btn-sm btn-primary">Crear Bienvenida</a>
+  {% endif %}
+</section>
+
+<hr>
+
+<!-- Ventajas -->
+<section>
+  <h2 class="h4">Ventajas Destacadas</h2>
+  <a href="{{ url_for('add_home_feature') }}" class="btn btn-primary btn-sm mb-3">Añadir Ventaja</a>
+  <div class="row">
+    {% for f in features %}
+    <div class="col-md-3 mb-3">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <div class="display-6">{{ f.icon }}</div>
+          <h5 class="card-title">{{ f.title }}</h5>
+          <p class="card-text">{{ f.description }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <a href="{{ url_for('edit_home_feature', feature_id=f.id) }}" class="btn btn-sm btn-secondary">Editar</a>
+          <form action="{{ url_for('delete_home_feature', feature_id=f.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta ventaja?');">Eliminar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-muted">No hay ventajas cargadas.</p>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

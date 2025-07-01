@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="fw-bold mb-4">Editar Bienvenida</h1>
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">
+    {{ form.title.label(class="form-label") }}
+    {{ form.title(class="form-control") }}
+  </div>
+  <div class="mb-3">
+    {{ form.paragraph.label(class="form-label") }}
+    {{ form.paragraph(class="form-control", rows=4, id="editor") }}
+  </div>
+  <button type="submit" class="btn btn-success">{{ form.submit.label.text }}</button>
+</form>
+
+
+{% endblock %}

@@ -10,8 +10,8 @@
   </div>
   <div class="col-md-6">
     <h1 class="fw-bold">{{ about.title }}</h1>
-    <p>{{ about.paragraph1 }}</p>
-    <p>{{ about.paragraph2 }}</p>
+    <p>{{ about.paragraph1 | safe }}</p>
+    <p>{{ about.paragraph2| safe }}</p>
   </div>
 </div>
 <div class="row mt-5">

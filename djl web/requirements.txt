@@ -4,3 +4,5 @@ Flask-Login
 Flask-Mail
 Flask-SQLAlchemy
 Werkzeug
+email_validator
+weasyprint

@@ -2,87 +2,91 @@
 
 {% block content %}
 
+<!-- ======================== -->
+<!-- Carrusel dinámico        -->
+<!-- ======================== -->
 <div id="carouselHome" class="carousel slide mb-5 shadow" data-bs-ride="carousel" data-bs-interval="5000">
   <div class="carousel-inner">
-    <div class="carousel-item active position-relative">
-      <img src="{{ url_for('static', filename='images/Djl-Solution-eventos-construccionok-1080x675.png') }}" class="d-block w-100 rounded" alt="Eventos Construcción">
+
+    {% for s in slides %}
+    <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+      <img 
+        src="{{ url_for('static', filename='images/home/' + s.image_filename) }}" 
+        class="d-block w-100 rounded carousel-image" 
+        alt="{{ s.title }}"
+      >
       <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
-        <h2 class="fw-bold">Eventos de Construcción</h2>
-        <p>Montajes, logística y planeación integral de proyectos.</p>
+        <h2 class="fw-bold">{{ s.title }}</h2>
+        <p>{{ s.description }}</p>
       </div>
     </div>
-    <div class="carousel-item position-relative">
-      <img src="{{ url_for('static', filename='images/Evento-corporativos-djl-solutions-1080x675.png') }}" class="d-block w-100 rounded" alt="Eventos Corporativos">
-      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
-        <h2 class="fw-bold">Eventos Corporativos</h2>
-        <p>Conectamos marcas con experiencias memorables.</p>
-      </div>
-    </div>
-    <div class="carousel-item position-relative">
-      <img src="{{ url_for('static', filename='images/Evento-social-djl-solutions-1080x675.png') }}" class="d-block w-100 rounded" alt="Eventos Sociales">
-      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
-        <h2 class="fw-bold">Eventos Sociales</h2>
-        <p>Cuidamos cada detalle para momentos únicos.</p>
-      </div>
-    </div>
-    <div class="carousel-item position-relative">
-      <img src="{{ url_for('static', filename='images/mobile-Djl-solutions-1080x675.png') }}" class="d-block w-100 rounded" alt="DJL Solutions">
-      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
-        <h2 class="fw-bold">DJL Solutions</h2>
-        <p>Expertos en planeación y montaje de eventos.</p>
-      </div>
-    </div>
+    {% endfor %}
+
   </div>
+
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselHome" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Anterior</span>
   </button>
+
   <button class="carousel-control-next" type="button" data-bs-target="#carouselHome" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Siguiente</span>
   </button>
 </div>
 
-<section class="text-center mb-5">
-  <h1 class="display-5 fw-bold mb-3">Bienvenido a DJL Solutions</h1>
-  <p class="lead mx-auto" style="max-width: 800px;">
-    Integramos servicios para eventos a través de alianzas estratégicas y apoyados en la experiencia y experticia en la planeación, producción y ejecución de eventos.
-  </p>
-  <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg mt-3">Solicita una cotización</a>
+<style>
+/* Limita altura del slider */
+.carousel-image {
+  max-height: 80vh;
+  object-fit: cover;
+}
+</style>
+
+<!-- ============================= -->
+<!-- Sección de Bienvenida dinámica -->
+<!-- ============================= -->
+<section class="text-center mb-5 container">
+  {% if welcome %}
+    <h1 class="display-5 fw-bold mb-3">{{ welcome.title }}</h1>
+    <p class="lead mx-auto" style="max-width: 800px;">
+      {{ welcome.paragraph | safe }}
+    </p>
+  {% else %}
+    <h1 class="display-5 fw-bold mb-3">
+      Bienvenido a DJL Solutions
+    </h1>
+    <p class="lead mx-auto" style="max-width: 800px;">
+      Texto de bienvenida pendiente de configurar.
+    </p>
+  {% endif %}
+  <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg mt-3">
+    <i class="bi bi-envelope-fill"></i> Solicita una cotización
+  </a>
 </section>
 
-<section class="row text-center g-4">
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body">
-        <h5 class="card-title text-primary">🎨 Diseño de Eventos</h5>
-        <p class="card-text">Conceptualizamos experiencias únicas adaptadas a cada cliente.</p>
+<!-- ========================== -->
+<!-- Sección de Ventajas dinámicas -->
+<!-- ========================== -->
+<section class="container mb-5">
+  <div class="row text-center g-4">
+    {% for f in features %}
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card border-0 shadow h-100">
+        <div class="card-body">
+          <div class="display-4 mb-3">
+            {{ f.icon | safe }}
+          </div>
+          <h5 class="card-title text-primary fw-bold">
+            {{ f.title }}
+          </h5>
+          <p class="card-text">
+            {{ f.description }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body">
-        <h5 class="card-title text-primary">🚀 Operación Logística</h5>
-        <p class="card-text">Coordinamos logística, montaje y operación profesional de principio a fin.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body">
-        <h5 class="card-title text-primary">🤝 Gestión de Proveedores</h5>
-        <p class="card-text">Aliados estratégicos que garantizan calidad y excelencia en cada detalle.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card border-0 shadow h-100">
-      <div class="card-body">
-        <h5 class="card-title text-primary">💼 Gestión Comercial</h5>
-        <p class="card-text">Acompañamos la comercialización de tu evento con estrategias efectivas.</p>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </section>
 

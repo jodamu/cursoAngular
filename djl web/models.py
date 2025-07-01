@@ -24,10 +24,15 @@ class GalleryImage(db.Model):
 
 class ContactMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), nullable=False)
+    phone = db.Column(db.String(50), nullable=True)
+    company = db.Column(db.String(150), nullable=True)
+    event_type = db.Column(db.String(50), nullable=True)
+    event_date = db.Column(db.Date, nullable=True)
+    attendees = db.Column(db.Integer, nullable=True)
     message = db.Column(db.Text, nullable=False)
-    date_sent = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,5 +74,21 @@ class Project(db.Model):
     description = db.Column(db.Text, nullable=True)
     image_filename = db.Column(db.String(255), nullable=True)
 
+class HomeSlide(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image_filename = db.Column(db.String(255), nullable=False)
+    title = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+
+class HomeWelcome(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    paragraph = db.Column(db.Text, nullable=False)
+
+class HomeFeature(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    icon = db.Column(db.String(50), nullable=True)
+    title = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.Text, nullable=True)
 
 

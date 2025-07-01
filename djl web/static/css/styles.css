@@ -50,3 +50,17 @@ body {
   color: white;
 }
 
+#btn-back-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display: none;
+  z-index: 9999;
+}
+
+/* .carousel-image {
+  max-height: 80vh;
+  object-fit: cover;
+}
+ */
+

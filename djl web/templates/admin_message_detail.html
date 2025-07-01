@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="fw-bold mb-4">Detalle del Mensaje</h1>
+
+<div class="mb-3">
+  <strong>Fecha:</strong> {{ message.created_at.strftime('%Y-%m-%d %H:%M') }}
+</div>
+<div class="mb-3">
+  <strong>Nombre:</strong> {{ message.name }}
+</div>
+<div class="mb-3">
+  <strong>Email:</strong> {{ message.email }}
+</div>
+<div class="mb-3">
+  <strong>Teléfono:</strong> {{ message.phone or 'No proporcionado' }}
+</div>
+<div class="mb-3">
+  <strong>Empresa:</strong> {{ message.company or 'No proporcionado' }}
+</div>
+<div class="mb-3">
+  <strong>Tipo de evento:</strong> {{ message.event_type or 'No especificado' }}
+</div>
+<div class="mb-3">
+  <strong>Fecha tentativa:</strong> {{ message.event_date or 'No especificada' }}
+</div>
+<div class="mb-3">
+  <strong>Número de asistentes:</strong> {{ message.attendees or 'No indicado' }}
+</div>
+<div class="mb-3">
+  <strong>Mensaje:</strong>
+  <p>{{ message.message }}</p>
+</div>
+
+<a href="{{ url_for('admin_messages') }}" class="btn btn-secondary">Volver a la lista</a>
+<form action="{{ url_for('delete_message', message_id=message.id) }}" method="POST" style="display:inline;">
+  <button class="btn btn-danger" onclick="return confirm('¿Eliminar este mensaje?');">Eliminar</button>
+</form>
+{% endblock %}

@@ -5,10 +5,11 @@ from flask_mail import Mail, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from config import Config
-from models import About, AboutFeature, Advantage, Album, Project, Service, TeamMember, db, User, GalleryImage, ContactMessage
-from forms import AboutFeatureForm, AboutForm, AdvantageForm, ImageUploadForm, LoginForm, ContactForm, ProjectForm, ServiceForm, TeamMemberForm
+from models import About, AboutFeature, Advantage, Album, HomeFeature, HomeSlide, HomeWelcome, Project, Service, TeamMember, db, User, GalleryImage, ContactMessage
 import os
-import uuid 
+import uuid
+
+from templates.forms import AboutFeatureForm, AboutForm, AdvantageForm, ContactForm, HomeFeatureForm, HomeSlideForm, HomeWelcomeForm, ImageUploadForm, LoginForm, ProjectForm, ServiceForm, TeamMemberForm 
 
 
 app = Flask(__name__)
@@ -26,7 +27,10 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    slides = HomeSlide.query.all()
+    welcome = HomeWelcome.query.first()
+    features = HomeFeature.query.all()
+    return render_template('index.html', slides=slides, welcome=welcome, features=features)
 
 @app.route('/nosotros')
 def about():
@@ -363,6 +367,132 @@ def album_detail(album_id):
     album = Album.query.get_or_404(album_id)
     return render_template('album_detail.html', album=album)
 
+# Dashboard de Home
+@app.route('/admin/home')
+@login_required
+def admin_home():
+    slides = HomeSlide.query.all()
+    welcome = HomeWelcome.query.first()
+    features = HomeFeature.query.all()
+    return render_template('admin_home.html', slides=slides, welcome=welcome, features=features)
+
+# Añadir Slide
+@app.route('/admin/home/slide/add', methods=['GET', 'POST'])
+@login_required
+def add_home_slide():
+    form = HomeSlideForm()
+    if form.validate_on_submit():
+        filename = None
+        if form.image.data:
+            filename = secure_filename(form.image.data.filename)
+            form.image.data.save(os.path.join(app.static_folder, 'images/home', filename))
+        slide = HomeSlide(
+            image_filename=filename,
+            title=form.title.data,
+            description=form.description.data
+        )
+        db.session.add(slide)
+        db.session.commit()
+        flash('Slide añadido.', 'success')
+        return redirect(url_for('admin_home'))
+    return render_template('admin_slide_form.html', form=form)
+
+# Editar Slide
+@app.route('/admin/home/slide/edit/<int:slide_id>', methods=['GET', 'POST'])
+@login_required
+def edit_home_slide(slide_id):
+    slide = HomeSlide.query.get_or_404(slide_id)
+    form = HomeSlideForm(obj=slide)
+    if form.validate_on_submit():
+        if form.image.data:
+            if slide.image_filename:
+                old = os.path.join(app.static_folder, 'images/home', slide.image_filename)
+                if os.path.exists(old):
+                    os.remove(old)
+            filename = secure_filename(form.image.data.filename)
+            form.image.data.save(os.path.join(app.static_folder, 'images/home', filename))
+            slide.image_filename = filename
+        slide.title = form.title.data
+        slide.description = form.description.data
+        db.session.commit()
+        flash('Slide actualizado.', 'success')
+        return redirect(url_for('admin_home'))
+    return render_template('admin_slide_form.html', form=form, slide=slide)
+
+# Eliminar Slide
+@app.route('/admin/home/slide/delete/<int:slide_id>', methods=['POST'])
+@login_required
+def delete_home_slide(slide_id):
+    slide = HomeSlide.query.get_or_404(slide_id)
+    if slide.image_filename:
+        path = os.path.join(app.static_folder, 'images/home', slide.image_filename)
+        if os.path.exists(path):
+            os.remove(path)
+    db.session.delete(slide)
+    db.session.commit()
+    flash('Slide eliminado.', 'success')
+    return redirect(url_for('admin_home'))
+
+# Editar Bienvenida
+@app.route('/admin/home/welcome', methods=['GET', 'POST'])
+@login_required
+def edit_home_welcome():
+    welcome = HomeWelcome.query.first()
+    if not welcome:
+        welcome = HomeWelcome(title='', paragraph='')
+        db.session.add(welcome)
+        db.session.commit()
+    form = HomeWelcomeForm(obj=welcome)
+    if form.validate_on_submit():
+        welcome.title = form.title.data
+        welcome.paragraph = form.paragraph.data
+        db.session.commit()
+        flash('Bienvenida actualizada.', 'success')
+        return redirect(url_for('admin_home'))
+    return render_template('admin_welcome_form.html', form=form)
+
+# Añadir Feature
+@app.route('/admin/home/feature/add', methods=['GET', 'POST'])
+@login_required
+def add_home_feature():
+    form = HomeFeatureForm()
+    if form.validate_on_submit():
+        feature = HomeFeature(
+            icon=form.icon.data,
+            title=form.title.data,
+            description=form.description.data
+        )
+        db.session.add(feature)
+        db.session.commit()
+        flash('Ventaja añadida.', 'success')
+        return redirect(url_for('admin_home'))
+    return render_template('admin_feature_form.html', form=form)
+
+# Editar Feature
+@app.route('/admin/home/feature/edit/<int:feature_id>', methods=['GET', 'POST'])
+@login_required
+def edit_home_feature(feature_id):
+    feature = HomeFeature.query.get_or_404(feature_id)
+    form = HomeFeatureForm(obj=feature)
+    if form.validate_on_submit():
+        feature.icon = form.icon.data
+        feature.title = form.title.data
+        feature.description = form.description.data
+        db.session.commit()
+        flash('Ventaja actualizada.', 'success')
+        return redirect(url_for('admin_home'))
+    return render_template('admin_feature_form.html', form=form, feature=feature)
+
+# Eliminar Feature
+@app.route('/admin/home/feature/delete/<int:feature_id>', methods=['POST'])
+@login_required
+def delete_home_feature(feature_id):
+    feature = HomeFeature.query.get_or_404(feature_id)
+    db.session.delete(feature)
+    db.session.commit()
+    flash('Ventaja eliminada.', 'success')
+    return redirect(url_for('admin_home'))
+
 @app.route('/admin/upload', methods=['GET', 'POST'])
 @login_required
 def upload_image():
@@ -409,29 +539,65 @@ def delete_image(image_id):
     return redirect(request.referrer or url_for('galeria'))
 
 
-@app.route('/contacto', methods=['GET', 'POST'])
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
     if form.validate_on_submit():
-        msg_db = ContactMessage(
+        # Creamos el objeto ContactMessage
+        message = ContactMessage(
             name=form.name.data,
             email=form.email.data,
+            phone=form.phone.data,
+            company=form.company.data,
+            event_type=form.event_type.data,
+            event_date=form.event_date.data,
+            attendees=form.attendees.data,
             message=form.message.data
         )
-        db.session.add(msg_db)
+        db.session.add(message)
         db.session.commit()
-        msg = Message('Nuevo mensaje de contacto',
-                      sender=app.config['MAIL_USERNAME'],
-                      recipients=[app.config['MAIL_USERNAME']])
-        msg.body = f"""
-        Nombre: {form.name.data}
-        Email: {form.email.data}
-        Mensaje: {form.message.data}
-        """
-        mail.send(msg)
-        flash('Tu mensaje ha sido enviado. Gracias por contactarnos.', 'success')
+        flash('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.', 'success')
         return redirect(url_for('contact'))
     return render_template('contact.html', form=form)
+
+# Listar mensajes
+@app.route('/admin/messages')
+@login_required
+def admin_messages():
+    messages = ContactMessage.query.order_by(ContactMessage.created_at.desc()).all()
+    return render_template('admin_messages.html', messages=messages)
+
+# Ver detalle de un mensaje
+@app.route('/admin/messages/<int:message_id>')
+@login_required
+def admin_message_detail(message_id):
+    message = ContactMessage.query.get_or_404(message_id)
+    return render_template('admin_message_detail.html', message=message)
+
+# Eliminar un mensaje
+@app.route('/admin/messages/delete/<int:message_id>', methods=['POST'])
+@login_required
+def delete_message(message_id):
+    message = ContactMessage.query.get_or_404(message_id)
+    db.session.delete(message)
+    db.session.commit()
+    flash('Mensaje eliminado.', 'success')
+    return redirect(url_for('admin_messages'))
+
+@app.route('/admin')
+@login_required
+def admin_dashboard():
+    service_count = Service.query.count()
+    advantage_count = Advantage.query.count()
+    project_count = Project.query.count()
+    team_count = TeamMember.query.count()
+    return render_template(
+        'admin_dashboard.html',
+        service_count=service_count,
+        advantage_count=advantage_count,
+        project_count=project_count,
+        team_count=team_count
+    )
 
 @app.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
@@ -441,7 +607,7 @@ def admin_login():
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             flash('Bienvenido, has iniciado sesión.', 'success')
-            return redirect(url_for('upload_image'))
+            return redirect(url_for('admin_dashboard'))
         else:
             flash('Credenciales incorrectas.', 'danger')
     return render_template('admin_login.html', form=form)
@@ -455,6 +621,7 @@ def admin_logout():
 
 if __name__ == '__main__':
     with app.app_context():
+
         db.create_all()
 
         # Crear álbumes si no existen

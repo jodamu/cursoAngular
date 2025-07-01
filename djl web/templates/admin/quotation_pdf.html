@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 12px; }
+    .header { text-align: center; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 5px; }
+    th { background: #f0f0f0; }
+    .total { text-align: right; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h2>Cotización {{ quotation.number }}</h2>
+    <p>{{ quotation.date.strftime("%d/%m/%Y") }}</p>
+  </div>
+  <p><strong>Cliente:</strong> {{ quotation.client_name }}</p>
+  <p><strong>Teléfono:</strong> {{ quotation.client_phone }}</p>
+  <p><strong>Email:</strong> {{ quotation.client_email }}</p>
+  <p><strong>Descripción:</strong> {{ quotation.description }}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in quotation.items %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>${{ "%.2f"|format(item.unit_price) }}</td>
+        <td>${{ "%.2f"|format(item.quantity * item.unit_price) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="total">Total: ${{ "%.2f"|format(quotation.total) }}</p>
+</body>
+</html>
